@@ -1,245 +1,329 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Mastery - Premium AI Courses</title>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <title>AI Master Pro | Complete AI Course</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --light: #f3f4f6;
+            --dark: #1f2937;
+            --bg-dark: #0a0a12;
+            --text-dark: #ffffff;
+            --card-dark: #1a1a2e;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
+            transition: background 0.3s, color 0.3s;
         }
 
         body {
-            background: #0a0a2e;
-            color: #fff;
-            overflow-x: hidden;
+            background-color: var(--light);
+            color: var(--dark);
         }
 
-        .navbar {
+        body[data-theme="dark"] {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1573164713988-8665fc963095');
+            background-size: cover;
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
             position: fixed;
-            width: 100%;
-            padding: 20px 50px;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 46, 0.95);
-            backdrop-filter: blur(10px);
+            gap: 8px;
             z-index: 1000;
         }
 
-        .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #00ffff, #ff00ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Pricing Cards */
+        .pricing-section {
+            padding: 4rem 2rem;
+            text-align: center;
         }
 
-        .nav-links {
+        .pricing-cards {
             display: flex;
-            gap: 30px;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
         }
 
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            transition: 0.3s;
+        .pricing-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .nav-links a:hover {
-            color: #00ffff;
+        body[data-theme="dark"] .pricing-card {
+            background: var(--card-dark);
         }
 
-        .hero {
-            height: 100vh;
-            display: flex;
+        /* Contributors Section */
+        .contributors-section {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .contributor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contributor-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        body[data-theme="dark"] .contributor-card {
+            background: var(--card-dark);
+        }
+
+        .contributor-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--primary);
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 10%;
-            background: radial-gradient(circle at center, #1a1a4a 0%, #0a0a2e 100%);
+            z-index: 999;
         }
 
-        .hero-content {
-            max-width: 600px;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #00ffff, #ff00ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .cta-button {
-            padding: 15px 40px;
-            background: linear-gradient(45deg, #00ffff, #ff00ff);
-            border: none;
-            border-radius: 30px;
-            color: #fff;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: 0.3s;
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
             position: relative;
-            overflow: hidden;
+        }
+
+        body[data-theme="dark"] .modal-content {
+            background: var(--card-dark);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: inline-block;
+            text-decoration: none;
         }
 
         .cta-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-        }
-
-        .ai-image {
-            width: 500px;
-            height: 500px;
-            background: url('https://media.discordapp.net/attachments/1328338436226285589/1334098573268353075/image0.jpg?ex=679b4b9e&is=6799fa1e&hm=3edcca294a4cca39d9c50b353c85fb2d050026f357368a892aa955f21da5004a&') center/contain no-repeat;
-            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .features {
-            padding: 100px 10%;
-            background: #1a1a4a;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            transition: 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .pricing {
-            padding: 100px 10%;
-        }
-
-        .price-cards {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .price-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 20px;
-            width: 300px;
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        .price-card:hover {
-            transform: scale(1.05);
-        }
-
-        footer {
-            padding: 50px 10%;
-            background: #000;
-            text-align: center;
+            background: var(--secondary);
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">AI Mastery</div>
-        <div class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#features">Features</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+        <span>Dark Mode</span>
+    </button>
 
-    <section class="hero" id="home">
-        <div class="hero-content" data-aos="fade-right">
-            <h1>Master AI with Our Expert Courses</h1>
-            <p>Transform your future with cutting-edge AI education from industry leaders.</p>
-            <button class="cta-button">Start Learning Now</button>
-        </div>
-        <div class="ai-image" data-aos="fade-left"></div>
-    </section>
+    <!-- Header -->
+    <header class="header">
+        <h1>Master Artificial Intelligence</h1>
+        <p>40-Hour Professional Certification Program</p>
+        <button class="cta-button" id="enrollNow">Enroll Now</button>
+    </header>
 
-    <section class="features" id="features">
-        <h2 data-aos="fade-up">Why Choose Us</h2>
-        <div class="feature-grid">
-            <div class="feature-card" data-aos="zoom-in">
-                <i class="fas fa-brain fa-3x"></i>
-                <h3>Expert Instructors</h3>
-                <p>Learn from industry professionals with real-world AI experience.</p>
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <h2>Choose Your Plan</h2>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <h3>Monthly Plan</h3>
+                <div class="price">₹1299/month</div>
+                <ul>
+                    <li>Full Course Access</li>
+                    <li>Weekly Live Sessions</li>
+                    <button class="cta-button" onclick="showPaymentModal()">Start Learning</button>
+                </ul>
             </div>
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
-                <i class="fas fa-certificate fa-3x"></i>
-                <h3>Certification</h3>
-                <p>Get recognized certification upon course completion.</p>
-            </div>
-            <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
-                <i class="fas fa-infinity fa-3x"></i>
-                <h3>Lifetime Access</h3>
-                <p>Access course materials anytime, anywhere, forever.</p>
+            <div class="pricing-card">
+                <h3>Annual Plan</h3>
+                <div class="price">₹1699/year</div>
+                <ul>
+                    <li>All Monthly Features</li>
+                    <li>Exclusive Content</li>
+                    <button class="cta-button" onclick="showPaymentModal()">Get Premium</button>
+                </ul>
             </div>
         </div>
     </section>
 
-    <section class="pricing" id="pricing">
-        <h2 data-aos="fade-up">Pricing Plans</h2>
-        <div class="price-cards">
-            <div class="price-card" data-aos="flip-left">
-                <h3>Basic</h3>
-                <h2>$99</h2>
-                <p>Monthly Access</p>
-                <button class="cta-button">Choose Plan</button>
+    <!-- Contributors Section -->
+    <section class="contributors-section">
+        <h2>Core Contributors</h2>
+        <div class="contributor-grid">
+         <!-- Joban Arsh -->
+        <div class="contributor-card">
+            <img src="https://media.discordapp.net/attachments/1328338436226285589/1334217392825307156/image0.png?ex=679bba47&is=679a68c7&hm=f9242c18d7bc073a8cb45aeee9219dfadc87d0da4ec48d479a499c9ac1c1d316&" 
+                 alt="Joban Arsh" class="contributor-img">
+            <h3>Joban Arsh</h3>
+            <p>AI Researcher</p>
+            <p>@joban.arsh</p>
+        </div>
+            <div class="contributor-card">
+                <img src="https://media.discordapp.net/attachments/1328338436226285589/1334217392825307156/image0.png?ex=679bba47&is=679a68c7&hm=f9242c18d7bc073a8cb45aeee9219dfadc87d0da4ec48d479a499c9ac1c1d316&" 
+                     alt="Jadeja Keyur" class="contributor-img">
+                <h3>Jadeja Keyur</h3>
+                <p>AI Architect</p>
+                <p>@keyur.jadeja</p>
             </div>
-            <div class="price-card" data-aos="flip-left" data-aos-delay="200">
-                <h3>Pro</h3>
-                <h2>$299</h2>
-                <p>Annual Access</p>
-                <button class="cta-button">Choose Plan</button>
+            <div class="contributor-card">
+                <img src="https://media.discordapp.net/attachments/1328338436226285589/1334217392825307156/image0.png?ex=679bba47&is=679a68c7&hm=f9242c18d7bc073a8cb45aeee9219dfadc87d0da4ec48d479a499c9ac1c1d316&" 
+                     alt="Raghvani Tushar" class="contributor-img">
+                <h3>Raghvani Tushar</h3>
+                <p>ML Engineer</p>
+                <p>@tushar.raghvani</p>
+            </div>
+            <div class="contributor-card">
+                <img src="https://media.discordapp.net/attachments/1328338436226285589/1334217392825307156/image0.png?ex=679bba47&is=679a68c7&hm=f9242c18d7bc073a8cb45aeee9219dfadc87d0da4ec48d479a499c9ac1c1d316&" 
+                     alt="Bhanderi Jayesh" class="contributor-img">
+                <h3>Bhanderi Jayesh</h3>
+                <p>Data Scientist</p>
+                <p>@jayesh.bhanderi</p>
             </div>
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2025 AI Community. All rights reserved.</p>
-    </footer>
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closePaymentModal()">&times;</span>
+            <h3>Complete Payment</h3>
+            <div class="payment-methods">
+                <button class="cta-button" onclick="processPayment('upi')">Pay via UPI</button>
+                <button class="cta-button" onclick="processPayment('netbanking')">NetBanking</button>
+            </div>
+        </div>
+    </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Social Media Modal -->
+    <div id="socialModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeSocialModal()">&times;</span>
+            <h3>Connect With Us</h3>
+            <div class="social-links">
+                <p><i class="fab fa-instagram"></i> @aicourseweb</p>
+                <p><i class="fab fa-facebook"></i> @aicourseweb</p>
+                <p><i class="fab fa-whatsapp"></i> +91 78492 18491</p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        AOS.init({
-            duration: 1000,
-            once: true,
-            easing: 'ease-in-out'
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? '' : 'dark');
+            themeToggle.innerHTML = isDark 
+                ? '<i class="fas fa-moon"></i><span>Dark Mode</span>' 
+                : '<i class="fas fa-sun"></i><span>Light Mode</span>';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
         });
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
+        }
+
+        // Modal Functions
+        function showPaymentModal() {
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        function showSocialModal() {
+            document.getElementById('socialModal').style.display = 'flex';
+        }
+
+        function closeSocialModal() {
+            document.getElementById('socialModal').style.display = 'none';
+        }
+
+        // Payment Processing
+        function processPayment(method) {
+            alert(`Payment via ${method.toUpperCase()} successful!\nRedirecting to course...`);
+            closePaymentModal();
+        }
+
+        // Event Listeners
+        document.getElementById('enrollNow').addEventListener('click', showSocialModal);
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
     </script>
 </body>
-</html># aicourse.github.io
+</html>
