@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Visionaries - Course Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2A2A72;
+            --secondary-color: #009FFD;
+            --accent-color: #00C896;
+            --light-bg: #f8f9fa;
+            --text-dark: #2d3436;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,200,150,0.3);
+        }
+
+        /* Course Cards */
+        .course-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 3rem 5%;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .premium {
+            border: 2px solid var(--accent-color);
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        /* Success Animation */
+        .success-modal {
+            background: #4BB543;
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .checkmark {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #fff;
+            stroke-miterlimit: 10;
+            margin: 0 auto 1rem;
+            animation: fill .4s ease-in-out .4s forwards,
+                       scale .3s ease-in-out .9s both;
+        }
+
+        @keyframes stroke {
+            100% { stroke-dashoffset: 0; }
+        }
+
+        @keyframes scale {
+            0%, 100% { transform: none; }
+            50% { transform: scale3d(1.1, 1.1, 1); }
+        }
+
+        @keyframes fill {
+            100% { box-shadow: inset 0 0 0 100% #4BB543; }
+        }
+
+        /* Course Content */
+        .video-container {
+            margin: 2rem 0;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">AI Visionaries</div>
+        <div>
+            <button class="btn btn-primary" id="enrollBtn">Enroll Now</button>
+            <button class="btn btn-primary" id="contributorsBtn">Contributors</button>
+        </div>
+    </nav>
+
+    <!-- Course Cards -->
+    <div class="course-cards">
+        <!-- Machine Learning -->
+        <div class="course-card">
+            <h3><i class="fas fa-robot"></i> Machine Learning</h3>
+            <p class="price">₹999</p>
+            <button class="btn btn-primary" onclick="selectCourse('Machine Learning', 999)">
+                Enroll Now
+            </button>
+        </div>
+
+        <!-- AI for Management -->
+        <div class="course-card">
+            <h3><i class="fas fa-chart-line"></i> AI for Management</h3>
+            <p class="price">₹999</p>
+            <button class="btn btn-primary" onclick="selectCourse('AI for Management', 999)">
+                Enroll Now
+            </button>
+        </div>
+
+        <!-- Premium Membership -->
+        <div class="course-card premium">
+            <h3><i class="fas fa-gem"></i> Premium Membership</h3>
+            <p class="price">₹1299/month</p>
+            <ul class="premium-features">
+                <li><i class="fas fa-star"></i> Exclusive Content</li>
+                <li><i class="fas fa-video"></i> Weekly Sessions</li>
+                <li><i class="fas fa-headset"></i> 24/7 Support</li>
+            </ul>
+            <button class="btn btn-primary" onclick="selectCourse('Premium Membership', 1299)">
+                Subscribe Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Course Content Sections -->
+    <div id="courseContent" style="display:none;">
+        <div class="video-container">
+            <iframe class="video-iframe" id="courseVideo" 
+                frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <h2>Create Account</h2>
+            <form id="authForm">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button class="btn btn-primary" type="submit">Continue</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <h2>Complete Payment</h2>
+            <div class="payment-options">
+                <div class="payment-method" onclick="selectPayment('upi')">
+                    <i class="fas fa-mobile-alt"></i> UPI
+                </div>
+                <div class="payment-method" onclick="selectPayment('paytm')">
+                    <i class="fas fa-wallet"></i> Paytm
+                </div>
+                <div class="payment-method" onclick="selectPayment('netbanking')">
+                    <i class="fas fa-university"></i> Netbanking
+                </div>
+                <div class="payment-method" onclick="selectPayment('card')">
+                    <i class="far fa-credit-card"></i> Card
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="processPayment()">Pay Now</button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="success-modal">
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+            <h2>Payment Successful!</h2>
+            <p>Loading course content...</p>
+        </div>
+    </div>
+
+    <script>
+        // Course Data
+        const courses = {
+            'Machine Learning': 'https://www.youtube.com/embed/your-ml-video-id',
+            'AI for Management': 'https://www.youtube.com/embed/your-ai-mgmt-video-id',
+            'Premium Membership': 'https://www.youtube.com/embed/your-premium-video-id'
+        };
+
+        let currentUser = null;
+        let selectedCourse = null;
+
+        // Course Selection
+        function selectCourse(name, price) {
+            selectedCourse = { name, price };
+            showModal('authModal');
+        }
+
+        // Auth Handling
+        document.getElementById('authForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            currentUser = {
+                name: e.target[0].value,
+                email: e.target[1].value
+            };
+            closeModal('authModal');
+            showModal('paymentModal');
+        });
+
+        // Payment Processing
+        function processPayment() {
+            closeModal('paymentModal');
+            showModal('successModal');
+            
+            setTimeout(() => {
+                closeModal('successModal');
+                document.getElementById('courseContent').style.display = 'block';
+                document.getElementById('courseVideo').src = courses[selectedCourse.name];
+                document.getElementById('courseContent').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }, 3000);
+        }
+
+        // Contributors Button
+        document.getElementById('contributorsBtn').addEventListener('click', () => {
+            const contributors = [
+                "1. Joban Arsh",
+                "2. Jadeja Keyur",
+                "3. Raghwani Tushar",
+                "4. Bhanderi Jayesh"
+            ];
+            alert("Project Contributors:\n\n" + contributors.join("\n"));
+        });
+
+        // Modal Controls
+        function showModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
+</body>
+</html>
